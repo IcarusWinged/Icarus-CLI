@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/icarus_cli/logo.svg" alt="Icarus CLI" width="480">
+  <img src="src/icarus_cli/logo.svg" alt="Icarus CLI" width="720">
 </p>
 
 <p align="center">A simple, minimal AI chat for your terminal.</p>
@@ -9,7 +9,7 @@
 Early build (alpha, version 0.1.3). Expect bugs and missing features.
 
 <p align="center">
-  <img src="docs/splash.png" alt="Icarus CLI main screen" width="720">
+  <img src="docs/splash.png" alt="Icarus CLI main screen" width="480">
 </p>
 
 ## What it can do
