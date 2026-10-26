@@ -64,6 +64,29 @@ icarus-cli
 
 On first run, enter a name and add an API key for any one provider. Press F2 to pick a model, F3 to manage keys, and type /help for commands. Alternatively, set an environment variable instead of saving a key: GEMINI_API_KEY, INCEPTION_API_KEY, NVIDIA_API_KEY or OPENROUTER_API_KEY.
 
+## Commands
+
+Type these in the chat box. Messages starting with / are never sent to a model.
+
+| Command | What it does |
+|---------|--------------|
+| /help | Show the list of commands and shortcuts |
+| /keys | Add, replace or clear API keys |
+| /model | Pick the provider and model |
+| /name | Change the name the model uses for you |
+| /theme | Change the color theme |
+| /new | Start a new chat (also /clear) |
+| /python on, off, status | Let the model run Python code, with approval before every run |
+| /run | Run the last Python code block the model wrote |
+| /codebg none, translucent, opaque | Change the background of code blocks |
+| /quit | Exit (also /exit) |
+
+Shortcuts: F2 models, F3 API keys, F4 themes, F5 new chat, F8 Python on/off, Esc stop a reply, Ctrl+J new line, Ctrl+Q quit.
+
+## A note on AI
+
+We are not against AI. Used well, it is a very good tool for learning, writing, coding and getting unstuck, and Icarus CLI exists because we think so. It is still a tool, not an authority: models can be wrong, out of date or confidently mistaken, so check anything that matters. Do not paste secrets, passwords or private data into a chat, and only approve generated code you understand before running it. Use it to support your own thinking, not to replace it.
+
 ## Warning: keyring on Linux
 
 API keys are stored in your operating system keyring. Some Linux setups (minimal installs, servers, containers, no desktop session) have no working keyring, and saving a key can fail. When no keyring exists, Icarus CLI warns you and falls back to a plain file with restricted permissions. You can also skip storage entirely and set an environment variable such as GEMINI_API_KEY.
