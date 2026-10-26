@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "icarus-cli"
+version = "0.1.3"
+description = "A clean, transparent Textual TUI chat for Inception Labs, NVIDIA and Google AI models."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["textual>=8.2,<9", "httpx>=0.27", "keyring>=24", "PySide6-Essentials>=6.6", "google-genai>=1.0"]
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-asyncio"]
+
+[project.scripts]
+icarus-cli = "icarus_cli.app:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/icarus_cli"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

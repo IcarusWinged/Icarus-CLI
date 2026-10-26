@@ -1,0 +1,87 @@
+/* Every surface is the terminal's own default background (fully transparent). */
+Screen, ModalScreen, VerticalScroll, Vertical, Horizontal,
+Static, Center, Label, Input, TextArea, Button, OptionList, Footer, Markdown, RunCard,
+MarkdownFence, MarkdownBlock, FooterKey, FooterLabel {
+    background: ansi_default;
+}
+ModalScreen { align: center middle; }
+
+#status {
+    height: 2;
+    padding: 0 1;
+    color: $text-muted;
+    text-style: bold;
+    border-bottom: solid $primary-muted;
+}
+#log { padding: 0 1; scrollbar-size-vertical: 1; }
+#prompt {
+    border: round $primary-muted; margin: 0 1;
+    height: auto; min-height: 3; max-height: 12;   /* grows with the text, then scrolls */
+    padding: 0 1; scrollbar-size-vertical: 1;
+}
+#prompt:focus { border: round $primary; }
+TextArea > .text-area--cursor-line { background: ansi_default; }
+TextArea > .text-area--placeholder { color: $text-muted; }
+
+.user { margin: 1 0 0 0; color: $accent; text-style: bold; }
+.assistant { margin: 0 0 0 2; }
+.error { margin: 1 0 0 0; color: $error; }
+.runcard { height: auto; margin: 1 0 0 2; padding: 0 1; border-left: tall $primary-muted; }
+.runcard .codetext { height: auto; }
+.runbar { height: 1; }
+.runbar .runinfo { color: $text-muted; margin-left: 1; width: auto; }
+Button.icon.-textual-compact { min-width: 3; width: 3; margin-right: 1; text-style: bold; }
+Button.icon.private { color: $success; }
+Button.icon.send { color: $primary; }
+Button.icon.cancel { color: $error; }
+.output { margin: 0 0 0 2; padding: 0 1; }
+ChatApp MarkdownFence:ansi { margin: 1 0; }
+ChatApp MarkdownFence > Label { background: transparent; }   /* the code text lives in this child Label */
+ChatApp MarkdownFence:ansi > Label { padding: 1 2; }
+/* code-block background: none (terminal's own) | translucent (subtle tint) | opaque (solid panel) */
+ChatApp.-code-translucent MarkdownFence, ChatApp.-code-translucent .output, ChatApp.-code-translucent .codetext { background: $foreground 12%; }
+ChatApp.-code-opaque MarkdownFence, ChatApp.-code-opaque .output, ChatApp.-code-opaque .codetext { background: $panel; }
+.notice { margin: 1 0 0 0; color: $text-muted; text-style: italic; }
+
+.dialog {
+    width: 78; max-width: 100%; height: auto; max-height: 100%;
+    padding: 0 2; border: round $primary; overflow-y: auto;
+}
+.dialog.wide { width: 90%; max-width: 100; height: 80%; }
+.title { text-style: bold; color: $primary; }
+.field-label { text-style: bold; margin-top: 1; }
+.field-label.tight { margin-top: 0; }
+Input.-compact { border: none; padding: 0 1; }
+.hint { color: $text-muted; }
+.warn { color: $warning; text-style: bold; }
+.row { height: auto; }
+.row Input { width: 1fr; }
+Button { border: round $primary-muted; min-width: 9; height: 3; }
+Button.-textual-compact, Button.-primary.-textual-compact { border: none; height: 1; min-width: 8; }
+Button.-primary { border: round $primary; }
+Button.small { margin-left: 1; }
+.buttons { height: auto; align-horizontal: right; }
+.buttons Button { margin-left: 1; }
+
+#panes { height: 1fr; }
+#provider-pane { width: 24; margin-right: 2; }
+#model-pane { width: 1fr; }
+#providers { height: auto; border: round $primary-muted; }
+#models { height: 1fr; border: round $primary-muted; }
+#filter { border: round $primary-muted; }
+OptionList:focus { border: round $primary; }
+
+#splash { height: 1fr; align: center middle; }
+#shell { width: 100%; max-width: 120; height: 1fr; }
+#logo { max-width: 110; }
+#name-logo { max-width: 90; margin-bottom: 1; }
+#tagline { width: 100%; text-align: center; color: $text-muted; text-style: bold; margin-top: 1; }
+#name-stage { width: 100%; height: 100%; align: center middle; }
+#name-label { width: auto; margin: 1 0; color: $text-muted; }
+#namebox { width: 52; max-width: 100%; height: 3; border: solid $primary-muted; }
+#namebox:focus-within { border: solid $primary; }
+#name-input { width: 1fr; }
+#name-save { width: 10; color: $primary; }
+#name-save:hover, #name-save:focus { background: $primary; color: $background; }
+
+Screen { align-horizontal: center; }
