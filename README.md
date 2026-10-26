@@ -20,14 +20,49 @@ Early build (alpha, version 0.1.3). Expect bugs and missing features.
 - Switch themes, and set a name the model uses to address you
 - Optionally let the model run Python code, off by default and only after you approve each run
 
-## Install
+## Requirements
+
+- Python 3.10 or newer (check with `python --version`)
+- pip (comes with Python)
+- A terminal with true color support (Windows Terminal, iTerm2, GNOME Terminal and most modern terminals)
+- An API key for at least one provider:
+  - Google AI: aistudio.google.com/apikey
+  - Inception Labs: platform.inceptionlabs.ai/dashboard/api-keys
+  - NVIDIA: build.nvidia.com/settings/api-keys
+  - OpenRouter: openrouter.ai/keys
+
+All Python dependencies (textual, httpx, keyring, PySide6-Essentials, google-genai) are installed automatically by pip.
+
+## Setup and install
+
+1. Get the code:
 
 ```bash
-pip install icarus_cli-0.1.3-py3-none-any.whl
+git clone https://github.com/IcarusWinged/Icarus-CLI.git
+cd Icarus-CLI
+```
+
+2. Create and activate a virtual environment (recommended):
+
+```bash
+python -m venv .venv
+source .venv/bin/activate        # Linux and macOS
+.venv\Scripts\activate           # Windows (PowerShell or cmd)
+```
+
+3. Install:
+
+```bash
+pip install .
+```
+
+4. Run:
+
+```bash
 icarus-cli
 ```
 
-On first run, add an API key for any one provider. Press F2 to pick a model, F3 to manage keys, and type /help for commands.
+On first run, enter a name and add an API key for any one provider. Press F2 to pick a model, F3 to manage keys, and type /help for commands. Alternatively, set an environment variable instead of saving a key: GEMINI_API_KEY, INCEPTION_API_KEY, NVIDIA_API_KEY or OPENROUTER_API_KEY.
 
 ## Warning: keyring on Linux
 
