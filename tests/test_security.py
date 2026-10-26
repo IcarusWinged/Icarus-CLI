@@ -81,7 +81,7 @@ class H(BaseHTTPRequestHandler):
 
 @pytest.fixture
 def srv(tmp_path, monkeypatch):
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path))
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path))
     s = ThreadingHTTPServer(("127.0.0.1", 0), H)
     threading.Thread(target=s.serve_forever, daemon=True).start()
     base = f"http://127.0.0.1:{s.server_port}"
@@ -100,7 +100,7 @@ async def chat(): return [c async for c in client.stream_chat(P(), KEY, "m", [{"
 
 # ── storage ──────────────────────────────────────────────────────────────
 def test_file_born_private_even_if_chmod_fails(tmp_path, monkeypatch, no_keyring):
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path / "new"))
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path / "new"))
     monkeypatch.setattr(os, "chmod", lambda *a, **k: None)   # prove we don't rely on chmod-after-write
     old = os.umask(0)
     try: storage.set_key(P(), KEY)
@@ -110,14 +110,14 @@ def test_file_born_private_even_if_chmod_fails(tmp_path, monkeypatch, no_keyring
     assert not list((tmp_path / "new").glob("*.tmp"))
 
 def test_corrupt_keys_file_is_never_destroyed(tmp_path, monkeypatch, no_keyring):
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path))
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path))
     (tmp_path / "keys.json").write_text('{"openai": "sk-precious",  oops')
     with pytest.raises(Exception): storage.set_key(P(), KEY)
     assert "sk-precious" in (tmp_path / "keys.json").read_text()
 
 @pytest.mark.parametrize("bad", ["abc\r\nX-Evil: 1", "key with space", "ключ", "a\x00b", "x" * 5000])
 def test_key_validation(tmp_path, monkeypatch, bad):
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path))
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path))
     with pytest.raises(ValueError): storage.set_key(P(), bad)
 
 # ── hostile server ───────────────────────────────────────────────────────
@@ -244,7 +244,7 @@ async def test_model_list_garbage(payload):
 
 # ── OS keyring behaviour ─────────────────────────────────────────────────
 def test_keyring_mode_never_writes_plaintext(tmp_path, monkeypatch, mem_keyring):
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path))
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path))
     storage.set_key(P(), KEY)
     assert mem_keyring.d[("icarus-cli", "inception")] == KEY
     assert not any(KEY in f.read_text() for f in tmp_path.iterdir() if f.is_file())
@@ -254,7 +254,7 @@ def test_keyring_mode_never_writes_plaintext(tmp_path, monkeypatch, mem_keyring)
     assert storage.get_key(P()) is None and mem_keyring.d == {}
 
 def test_legacy_plaintext_keys_migrate_and_are_scrubbed(tmp_path, monkeypatch, mem_keyring):
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path))
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path))
     (tmp_path / "keys.json").write_text(json.dumps({"inception": KEY, "gemini": "AIzaGEMINI123", "openai": "sk-keep", "nvidia": "bad key"}))
     moved = storage.migrate_legacy(providers.PROVIDERS.values())
     assert sorted(moved) == ["Google AI", "Inception Labs"]          # invalid 'nvidia' value is left alone
@@ -264,7 +264,7 @@ def test_legacy_plaintext_keys_migrate_and_are_scrubbed(tmp_path, monkeypatch, m
     assert storage.migrate_legacy(providers.PROVIDERS.values()) == []  # idempotent
 
 def test_no_migration_without_keyring(tmp_path, monkeypatch, no_keyring):
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path))
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path))
     (tmp_path / "keys.json").write_text(json.dumps({"inception": KEY}))
     assert storage.migrate_legacy(providers.PROVIDERS.values()) == []
     assert KEY in (tmp_path / "keys.json").read_text()
@@ -272,7 +272,7 @@ def test_no_migration_without_keyring(tmp_path, monkeypatch, no_keyring):
 def test_broken_keyring_does_not_silently_downgrade_to_plaintext(tmp_path, monkeypatch):
     import keyring
     from conftest import BrokenKeyring
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path))
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path))
     keyring.set_keyring(BrokenKeyring())
     with pytest.raises(OSError, match="keyring"):
         storage.set_key(P(), KEY)
@@ -281,14 +281,14 @@ def test_broken_keyring_does_not_silently_downgrade_to_plaintext(tmp_path, monke
 def test_failed_migration_keeps_plaintext(tmp_path, monkeypatch):
     import keyring
     from conftest import BrokenKeyring
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path))
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path))
     keyring.set_keyring(BrokenKeyring())
     (tmp_path / "keys.json").write_text(json.dumps({"inception": KEY}))
     assert storage.migrate_legacy(providers.PROVIDERS.values()) == []
     assert json.loads((tmp_path / "keys.json").read_text()) == {"inception": KEY}   # never lose the only copy
 
 def test_env_var_fallback_and_priority(tmp_path, monkeypatch, mem_keyring):
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path)); monkeypatch.setenv("INCEPTION_API_KEY", "env-key-123")
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path)); monkeypatch.setenv("INCEPTION_API_KEY", "env-key-123")
     assert storage.get_key(P()) == "env-key-123" and storage.key_source(P()) == "env"
     storage.set_key(P(), KEY)
     assert storage.get_key(P()) == KEY and storage.key_source(P()) == "keyring"   # keyring beats env
@@ -307,7 +307,7 @@ def test_migration_verifies_readback_before_deleting_plaintext(tmp_path, monkeyp
     from conftest import MemKeyring
     class Lossy(MemKeyring):
         def set_password(self, service, user, password): pass          # silently drops the secret
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path))
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path))
     keyring.set_keyring(Lossy())
     (tmp_path / "keys.json").write_text(json.dumps({"inception": KEY}))
     assert storage.migrate_legacy(providers.PROVIDERS.values()) == []

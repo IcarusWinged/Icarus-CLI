@@ -9,7 +9,7 @@ from dataclasses import dataclass
 class Provider:
     id: str  # internal id
     name: str  # display name
-    key_alias: str  # name used in keys.json (shared with the `llm` CLI)
+    key_alias: str  # name used in keys.json
     env_var: str  # fallback environment variable
     base_url: str  # API root used for chat (OpenAI-style root, or Google's host for the google-genai SDK)
     models_url: str = ""  # OpenAI-style model list URL (unused by the Google connector)

@@ -73,7 +73,7 @@ class Handler(BaseHTTPRequestHandler):
 
 @pytest.fixture
 def server(tmp_path, monkeypatch):
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path))
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path))
     srv = HTTPServer(("127.0.0.1", 0), Handler)
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     base = f"http://127.0.0.1:{srv.server_port}"
@@ -136,7 +136,7 @@ def test_every_provider_has_its_own_connector():
 
 
 def test_keystore_roundtrip_fallback_file(tmp_path, monkeypatch, no_keyring):
-    monkeypatch.setenv("LLM_USER_PATH", str(tmp_path))
+    monkeypatch.setenv("ICARUS_USER_PATH", str(tmp_path))
     (tmp_path / "keys.json").write_text('{"openai": "sk-keep"}')
     p = providers.PROVIDERS["google"]
     storage.set_key(p, " abc12345wxyz ")

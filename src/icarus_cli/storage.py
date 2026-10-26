@@ -2,7 +2,7 @@
 
 API keys are stored in the operating system's keyring (macOS Keychain, Windows
 Credential Locker, Secret Service/KWallet on Linux). Only if no keyring exists
-do we fall back to a mode-600 keys.json (shared with the `llm` CLI) and warn.
+do we fall back to a mode-600 keys.json and warn.
 """
 
 from __future__ import annotations
@@ -18,16 +18,16 @@ from .providers import Provider
 
 
 def user_dir() -> Path:
-    override = os.environ.get("LLM_USER_PATH")
+    override = os.environ.get("ICARUS_USER_PATH")
     if override:
         path = Path(override)
     elif sys.platform == "win32":
-        path = Path(os.environ.get("APPDATA", Path.home() / "AppData" / "Roaming")) / "io.datasette.llm"
+        path = Path(os.environ.get("APPDATA", Path.home() / "AppData" / "Roaming")) / "io.datasette.icarus"
     elif sys.platform == "darwin":
-        path = Path.home() / "Library" / "Application Support" / "io.datasette.llm"
+        path = Path.home() / "Library" / "Application Support" / "io.datasette.icarus"
     else:
         base = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
-        path = base / "io.datasette.llm"
+        path = base / "io.datasette.icarus"
     path.mkdir(mode=0o700, parents=True, exist_ok=True)  # only affects a newly created dir
     return path
 
@@ -198,7 +198,7 @@ def set_key(provider: Provider, key: str) -> None:
 
 
 def migrate_legacy(providers) -> list[str]:
-    """Move plaintext keys (ours or `llm` CLI's aliases) from keys.json into the
+    """Move plaintext keys from keys.json into the
     OS keyring. Only removes a plaintext copy after reading the keyring copy back."""
     kr = _keyring()
     if not kr:
