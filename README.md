@@ -96,3 +96,7 @@ API keys are stored in your operating system keyring. Some Linux setups (minimal
 - [ ] Chat history
 - [ ] Chat memory
 - [ ] More safety guardrails
+
+## License
+
+MIT. See the LICENSE file.
