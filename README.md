@@ -11,7 +11,7 @@ Version 0.1.3
 Note: Icarus CLI is in alpha. The code can be buggy. On Linux, the system keyring may fail or be missing; the app then warns you and falls back to a plain file with restricted permissions (or you can use environment variables).
 
 <p align="center">
-  <img src="docs/chat.png" alt="Icarus CLI chat screen" width="720">
+  <img src="docs/splash.png" alt="Icarus CLI main screen" width="720">
 </p>
 
 ## Providers
