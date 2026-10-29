@@ -101,6 +101,14 @@ API keys are stored in your operating system keyring. Some Linux setups (minimal
 
 If Icarus CLI is useful to you, give it a star on GitHub. It helps other people find the project and tells us the work is worth continuing.
 
+<a href="https://www.star-history.com/?repos=icaruswinged%2Ficarus-cli&type=timeline&legend=bottom-right">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=icaruswinged/icarus-cli&type=date&theme=dark&legend=bottom-right" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=icaruswinged/icarus-cli&type=date&legend=bottom-right" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=icaruswinged/icarus-cli&type=date&legend=bottom-right" />
+ </picture>
+</a>
+
 ## License
 
 MIT. See the LICENSE file.
