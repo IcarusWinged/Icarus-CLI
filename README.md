@@ -97,6 +97,10 @@ API keys are stored in your operating system keyring. Some Linux setups (minimal
 - [ ] Chat memory
 - [ ] More safety guardrails
 
+## Star
+
+If Icarus CLI is useful to you, give it a star on GitHub. It helps other people find the project and tells us the work is worth continuing.
+
 ## License
 
 MIT. See the LICENSE file.
