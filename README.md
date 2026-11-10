@@ -83,6 +83,51 @@ Type these in the chat box. Messages starting with / are never sent to a model.
 
 Shortcuts: F2 models, F3 API keys, F4 themes, F5 new chat, F8 Python on/off, Esc stop a reply, Ctrl+J new line, Ctrl+Q quit.
 
+## Environment variables:
+
+Instead of saving a key in the app, you can set one of these:
+
+| Provider | Variable |
+|----------|----------|
+| Google AI (Gemini) | `GEMINI_API_KEY` |
+| Inception Labs | `INCEPTION_API_KEY` |
+| NVIDIA | `NVIDIA_API_KEY` |
+| OpenRouter | `OPENROUTER_API_KEY` |
+
+Use these on systems with no OS keyring, such as minimal Linux installs, servers and Docker.
+
+### Windows (PowerShell)
+
+Run the line for your provider, then open a new terminal (`setx` only affects new windows):
+
+```powershell
+setx GEMINI_API_KEY "your-key-here"
+setx INCEPTION_API_KEY "your-key-here"
+setx NVIDIA_API_KEY "your-key-here"
+setx OPENROUTER_API_KEY "your-key-here"
+```
+
+### Linux and macOS
+
+Add the line for your provider to `~/.bashrc` or `~/.zshrc`, then open a new terminal:
+
+```bash
+export GEMINI_API_KEY="your-key-here"
+export INCEPTION_API_KEY="your-key-here"
+export NVIDIA_API_KEY="your-key-here"
+export OPENROUTER_API_KEY="your-key-here"
+```
+
+### Docker
+
+Pass the variable when you start the container:
+
+```bash
+docker run -it -e GEMINI_API_KEY="$GEMINI_API_KEY" icarus-cli
+```
+
+`LLM_USER_PATH` changes the folder used for the fallback `keys.json` file.
+
 ## A note on AI:
 
 We are not against AI. Used well, it is a very good tool for learning, writing, coding and getting unstuck, and Icarus CLI exists because we think so. It is still a tool, not an authority: models can be wrong, out of date or confidently mistaken, so check anything that matters. Do not paste secrets, passwords or private data into a chat, and only approve generated code you understand before running it. Use it to support your own thinking, not to replace it.
